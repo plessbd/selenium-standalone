@@ -128,6 +128,23 @@ describe('default-downloads', function() {
           value: 'linux'
         });
       });
+      
+      if(opts.drivers.chrome.version < 2.34) {
+        it('ia32 download exists', function(done) {
+          opts = merge(opts, {
+            drivers: {
+              chrome: {
+                arch: 'ia32'
+              }
+            }
+          });
+
+          computedUrls = computeDownloadUrls(opts);
+
+          assert(computedUrls.chrome.indexOf('linux32') > 0);
+          doesDownloadExist(computedUrls.chrome, done);
+        });
+      }
 
       it('x64 download exists', function(done) {
         opts = merge(opts, {
